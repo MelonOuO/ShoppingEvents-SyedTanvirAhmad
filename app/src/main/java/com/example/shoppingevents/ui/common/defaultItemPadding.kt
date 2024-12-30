@@ -8,3 +8,8 @@ import androidx.compose.ui.unit.dp
 fun defaultItemPadding(): PaddingValues = PaddingValues(
     horizontal = 8.dp,
 )
+@Composable
+fun mediumItemPadding(): PaddingValues = PaddingValues(
+    horizontal = 20.dp,
+)
+

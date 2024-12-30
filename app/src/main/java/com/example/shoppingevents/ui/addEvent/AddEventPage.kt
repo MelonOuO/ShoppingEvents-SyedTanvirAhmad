@@ -87,7 +87,7 @@ fun EventForm(
     val datePickerState = rememberDatePickerState()
     Column(
         modifier = modifier
-            .padding(defaultItemPadding())
+            .padding(8.dp)
             .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -159,7 +159,7 @@ fun TextInputFields(
             },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(defaultItemPadding())
+                .padding(8.dp)
         )
 
         OutlinedTextField(
@@ -176,7 +176,7 @@ fun TextInputFields(
             },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(defaultItemPadding())
+                .padding(8.dp)
         )
 
     }

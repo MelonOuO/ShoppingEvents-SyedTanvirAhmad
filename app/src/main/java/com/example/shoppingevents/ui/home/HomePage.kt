@@ -1,7 +1,7 @@
 package com.example.shoppingevents.ui.home
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
@@ -13,7 +13,6 @@ import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -24,14 +23,17 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.shoppingevents.customComposables.ShoppingAppBar
 import com.example.shoppingevents.data.entities.ShoppingEvent
+import com.example.shoppingevents.ui.theme.default.defaultThemeElevations
 
 @Composable
 fun HomePage(
     navigateToAddEvent: () -> Unit,
     modifier: Modifier = Modifier,
+    navigateToEventDetails: (Long, String) -> Unit,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.homeUiState.collectAsState()
@@ -65,7 +67,8 @@ fun HomePage(
         }
         ShoppingList(
             shoppingEvents = uiState.events,
-            modifier = modifier.padding(innerPadding)
+            modifier = modifier.padding(innerPadding),
+            navigateToEventDetails = navigateToEventDetails,
         )
 
     }
@@ -74,10 +77,19 @@ fun HomePage(
 
 @Composable
 fun ShoppingEventView(
+    onTapEvent: (Long, String) -> Unit,
     shoppingEvent: ShoppingEvent,
     modifier: Modifier = Modifier
 ) {
     ListItem(
+        modifier = modifier.padding(8.dp)
+            .clickable {
+                onTapEvent(
+                    shoppingEvent.id,
+                    shoppingEvent.name
+                )
+            },
+        tonalElevation = defaultThemeElevations.level4,
         headlineContent = {
             Text(text = shoppingEvent.name)
         },
@@ -107,13 +119,17 @@ fun ShoppingEventView(
 @Composable
 fun ShoppingList(
     shoppingEvents: List<ShoppingEvent>,
+    navigateToEventDetails: (Long, String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
         modifier = modifier
     ) {
         items(shoppingEvents){ event ->
-            ShoppingEventView(shoppingEvent = event)
+            ShoppingEventView(
+                onTapEvent = navigateToEventDetails,
+                shoppingEvent = event
+            )
         }
 
     }

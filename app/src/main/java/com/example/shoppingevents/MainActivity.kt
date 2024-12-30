@@ -48,7 +48,14 @@ fun ShoppingApp(
                     navigateToAddEvent = {
                         navController.navigate(route = AddEventRoute)
                     },
-                    modifier = modifier
+                    modifier = modifier,
+                    navigateToEventDetails = {id, name ->
+                        navController.navigate(
+                            route = EventDetailsRoute(
+                                eventId = id,
+                                eventName = name)
+                        )
+                    }
                 )
             }
             composable<AddEventRoute>{

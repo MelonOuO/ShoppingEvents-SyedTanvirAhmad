@@ -7,6 +7,8 @@ import com.example.shoppingevents.data.repos.ShoppingEventRepository
 import com.example.shoppingevents.data.repos.ShoppingItemRepository
 import com.example.shoppingevents.destinations.EventDetailsRoute
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 @HiltViewModel
@@ -16,5 +18,8 @@ class EventDetailsViewModel @Inject constructor(
     private val shoppingItemRepository: ShoppingItemRepository
 ): ViewModel() {
     private val detailsRoute: EventDetailsRoute = saveStateHandle.toRoute<EventDetailsRoute>()
+
+    private val _eventDetailUiState = MutableStateFlow(EventDetailsUiState())
+    val eventDetailUiState = _eventDetailUiState.asStateFlow()
 
 }

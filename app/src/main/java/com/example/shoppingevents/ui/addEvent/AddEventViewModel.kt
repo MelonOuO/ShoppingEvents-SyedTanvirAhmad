@@ -11,6 +11,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AddEventViewModel @Inject constructor(
+    private val shoppingEventRepository: ShoppingEventRepository
 
 ): ViewModel() {
     var addEventUiState by mutableStateOf(AddEventUiState())
@@ -33,10 +34,9 @@ class AddEventViewModel @Inject constructor(
         }
     }
 
-     fun saveEvent(){
+     suspend fun saveEvent(){
         if(validateInput()){
-
-
+            shoppingEventRepository.insert(addEventUiState.addEventDetails.toShoppingEvent())
         }
     }
 }

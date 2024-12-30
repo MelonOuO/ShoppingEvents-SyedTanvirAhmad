@@ -2,10 +2,11 @@ package com.example.shoppingevents.data.repos
 
 import com.example.shoppingevents.data.daos.ShoppingEventDao
 import com.example.shoppingevents.data.entities.ShoppingEvent
+import dagger.Provides
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-interface ShoppingEventRepository{
+ interface ShoppingEventRepository{
     suspend fun insert(shoppingEvent: ShoppingEvent)
     suspend fun update(shoppingEvent: ShoppingEvent)
     suspend fun delete(shoppingEvent: ShoppingEvent)

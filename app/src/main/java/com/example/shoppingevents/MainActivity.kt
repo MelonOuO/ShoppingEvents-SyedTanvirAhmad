@@ -11,6 +11,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.example.shoppingevents.destinations.AddEventRoute
+import com.example.shoppingevents.destinations.EventDetailsRoute
+import com.example.shoppingevents.destinations.HomeRoute
+import com.example.shoppingevents.ui.addEvent.AddEventPage
+import com.example.shoppingevents.ui.eventDetails.EventDetailsPage
+import com.example.shoppingevents.ui.home.HomePage
 import com.example.shoppingevents.ui.theme.ShoppingEventsTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -20,30 +29,48 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            ShoppingEventsTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
-            }
+            ShoppingApp()
         }
     }
 }
-
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
+fun ShoppingApp(
+    modifier: Modifier = Modifier
+) {
+    ShoppingEventsTheme {
+       val navController = rememberNavController()
+        NavHost(
+            navController = navController,
+            startDestination = HomeRoute
+        ){
+            composable<HomeRoute>{
+                HomePage(
+                    modifier = modifier
+                )
+            }
+            composable<AddEventRoute>{
+                AddEventPage(
+                    navigateBack = { navController.popBackStack() },
+                    navigateUp = { navController.navigateUp() },
+                    modifier = modifier
+                )
+            }
+            composable<EventDetailsRoute>{
+                EventDetailsPage(
+                    navigateBack = { navController.popBackStack() },
+                    navigateUp = { navController.navigateUp() },
+                    modifier = modifier
+                )
+            }
+        }
+    }
+
 }
+
 
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
     ShoppingEventsTheme {
-        Greeting("Android")
     }
 }
